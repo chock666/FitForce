@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:layout_weight="3"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/firstFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="polak=king"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:text="select a training style:"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:textColor="#43a047"
         android:textSize="40sp"
-        android:textStyle="italic|bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="italic|bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:backgroundTint="@color/white"
+        android:layout_margin="10dp"
+
+
+
+        android:drawableBottom="@drawable/swimming_man"
+        android:drawablePadding="4dp"
+        android:text="I'm a button with an icon" />
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:contentDescription=""
+
+        android:scaleType="fitEnd"
+        android:src="@drawable/swimming_man"
+
+
+        />
+
+</LinearLayout>
