@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:layout_weight="3"
     tools:context=".MainActivity">
 
     <TextView
@@ -17,6 +16,7 @@
         android:fontFamily="sans-serif"
         android:text="select a training style:"
         android:layout_gravity="center"
+        android:layout_weight="1"
         android:gravity="center"
         android:textColor="#43a047"
         android:textSize="40sp"
@@ -27,23 +27,37 @@
         android:layout_height="100dp"
         android:backgroundTint="@color/white"
         android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:drawableBottom="@drawable/swimming_man_button"
+        android:id="@+id/swimming_button"
+        />
 
-
-
-        android:drawableBottom="@drawable/swimming_man"
-        android:drawablePadding="4dp"
-        android:text="I'm a button with an icon" />
-
-    <ImageButton
+    <Button
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:contentDescription=""
+        android:layout_weight="1"
+        android:text="running"
+        android:id="@+id/running_button"
 
-        android:scaleType="fitEnd"
-        android:src="@drawable/swimming_man"
 
 
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:text="Strength "
+        android:layout_weight="1"
+        android:id="@+id/Strength_button"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:text="fitness "
+        android:layout_weight="1"
+        android:id="@+id/fitness_button"
         />
 
 </LinearLayout>

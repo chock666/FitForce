@@ -11,9 +11,10 @@
         android:id="@+id/firstFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="polak the king"
+        android:text="stats "
+
         android:textColor="#43a047"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,3 +23,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

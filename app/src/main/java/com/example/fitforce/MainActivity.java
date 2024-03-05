@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.flFragment, HomeFragment)
+                    .replace(R.id.flFragment, StatsFragment)
                     .commit();
             return true;
         }
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
             if (item.getItemId() == R.id.settings) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.flFragment, StatsFragment)
+                        .replace(R.id.flFragment, SettingsFragment)
                         .commit();
                 return true;
             }
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
                 if (item.getItemId() == R.id.home) {
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.flFragment, SettingsFragment)
+                            .replace(R.id.flFragment, HomeFragment)
                             .commit();
                     return true;
                 }
