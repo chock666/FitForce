@@ -23,7 +23,7 @@
 
 
     <!--
-        לייאאוט ראשון - שם פרטי
+        לייאאוט ראשון - תמונת פרופיל
         -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,11 +37,11 @@
             android:layout_weight="1"
             android:text="profile picture: "
             />
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="x"
+
             />
         <Button
             android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
 
 
     <!--
-    לייאאוט ראשון - שם פרטי
+    לייאאוט שני - שם פרטי
     -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,7 +94,7 @@
 
 
     <!--
-    לייאאוט שני - שם משפחה
+    לייאאוט שלישי - שם משפחה
     -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,7 +130,7 @@
 
 
     <!--
-    לייאאוט שלישי - תאריך לידה
+    לייאאוט רביעי - תאריך לידה
     -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -166,13 +166,12 @@
 
 
     <!--
-    לייאאוט רביעי - התראות
+    לייאאוט חמישי - התראות
     -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
         >
 
         <TextView
