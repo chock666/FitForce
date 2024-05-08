@@ -1,8 +1,12 @@
 package com.example.fitforce;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 //import com.example.Fragment.*;
@@ -11,6 +15,7 @@ import com.example.fitforce.R;
 import com.example.fitforce.SettingsFragment;
 import com.example.fitforce.StatsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.io.*;
 
 public class MainActivity extends AppCompatActivity
@@ -18,10 +23,15 @@ public class MainActivity extends AppCompatActivity
         .OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
-
+    ImageView pp;
+    HomeFragment HomeFragment = new HomeFragment();
+    StatsFragment StatsFragment = new StatsFragment();
+    SettingsFragment SettingsFragment = new SettingsFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
 
         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
@@ -30,12 +40,12 @@ public class MainActivity extends AppCompatActivity
             //show sign up activity
             startActivity(new Intent(MainActivity.this, profileCreationActivity.class));
 
+
         }
 
 
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();
-        setContentView(R.layout.activity_main);
 
         bottomNavigationView
                 = findViewById(R.id.bottomNavigationView);
@@ -45,9 +55,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setSelectedItemId(R.id.stats);
     }
 
-    HomeFragment HomeFragment = new HomeFragment();
-    StatsFragment StatsFragment = new StatsFragment();
-    SettingsFragment SettingsFragment = new SettingsFragment();
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -61,23 +69,23 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
-            if (item.getItemId() == R.id.settings) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, SettingsFragment)
-                        .commit();
-                return true;
-            }
-
-                if (item.getItemId() == R.id.home) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.flFragment, HomeFragment)
-                            .commit();
-                    return true;
-                }
-                return false;
-
+        if (item.getItemId() == R.id.settings) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, SettingsFragment)
+                    .commit();
+            return true;
         }
+
+        if (item.getItemId() == R.id.home) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, HomeFragment)
+                    .commit();
+            return true;
+        }
+        return false;
+
     }
+}
 
