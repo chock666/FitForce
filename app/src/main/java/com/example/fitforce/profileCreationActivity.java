@@ -1,9 +1,15 @@
 package com.example.fitforce;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;import java.util.Calendar;
 
 
@@ -20,16 +27,30 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
     SharedPreferences preferences;
 
     SharedPreferences.Editor editor;
-    Button btSubmitProfileCreationPage,btBirthDateChoosing;
+    Button btSubmitProfileCreationPage, btBirthDateChoosing;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_PICK_PHOTO = 2;
+    private static final int PERMISSION_REQUEST_CODE = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_creation);
-        etFirstName=findViewById(R.id.etFirstName);
-        etLastName=findViewById(R.id.etLastName);
-        btSubmitProfileCreationPage=findViewById(R.id.btSubmitProfileCreationPage);
-        btBirthDateChoosing=findViewById(R.id.btBirthDateChoosing);
-        ivProfile=findViewById(R.id.ivProfile);
+
+        if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                    android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        }
+        etFirstName = findViewById(R.id.etFirstName);
+        etLastName = findViewById(R.id.etLastName);
+        btSubmitProfileCreationPage = findViewById(R.id.btSubmitProfileCreationPage);
+        btBirthDateChoosing = findViewById(R.id.btBirthDateChoosing);
+        ivProfile = findViewById(R.id.ivProfile);
         btSubmitProfileCreationPage.setOnClickListener(this);
         btBirthDateChoosing.setOnClickListener(this);
         ivProfile.setOnClickListener(this);
@@ -64,28 +85,67 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
 
             startActivity(new Intent(profileCreationActivity.this, MainActivity.class));
         }
-        if (v==btBirthDateChoosing){
+        if (v == btBirthDateChoosing) {
             Calendar systemCalender = Calendar.getInstance();
             int year = systemCalender.get(Calendar.YEAR);
             int month = systemCalender.get(Calendar.MONTH);
             int day = systemCalender.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,new SetDate(),year,month,day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new SetDate(), year, month, day);
             datePickerDialog.show();
 
         }
-        if (v==ivProfile){
+        if (v == ivProfile) {
 
+
+            // Create a dialog to choose between Camera and Gallery
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Select Option");
+            builder.setItems(new CharSequence[]{"Take Photo", "Choose from Gallery"}, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0: // Take Photo
+                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
+                            break;
+                        case 1: // Choose from Gallery
+                            Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(pickPhotoIntent, REQUEST_PICK_PHOTO);
+                            break;
+                    }
+                }
+            });
+            builder.show();
         }
     }
 
-    public  class SetDate implements DatePickerDialog.OnDateSetListener
-    {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_IMAGE_CAPTURE:
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    ivProfile.setImageBitmap(imageBitmap);
+                    break;
+                case REQUEST_PICK_PHOTO:
+                    Uri selectedImage = data.getData();
+                    ivProfile.setImageURI(selectedImage);
+                    break;
+            }
+        }
+    }
+
+
+    public class SetDate implements DatePickerDialog.OnDateSetListener {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            monthOfYear = monthOfYear +1;
+            monthOfYear = monthOfYear + 1;
 
-            String str = "You selected :" + dayOfMonth + "/" + monthOfYear +"/" + year;
+            String str = "You selected :" + dayOfMonth + "/" + monthOfYear + "/" + year;
             btBirthDateChoosing.setText(str);
             preferences = getSharedPreferences("dates", MODE_PRIVATE);
             editor = preferences.edit();
@@ -96,6 +156,4 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
 
         }
     }
-
-
 }
