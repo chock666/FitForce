@@ -2,14 +2,17 @@ package com.example.fitforce;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,7 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;import java.util.Calendar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
 
 public class profileCreationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -74,14 +80,8 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
             editor.apply();
 
             // Retrieve image resource ID from SharedPreferences
-            int savedImageResourceId = preferences.getInt("imageResourceId", -1);
 
-            if (savedImageResourceId != -1) {
-                // Set ImageView to display the saved image
-                ivProfile.setImageResource(savedImageResourceId);
-            } else {
-                // Handle case where no image is saved
-            }
+
 
             startActivity(new Intent(profileCreationActivity.this, MainActivity.class));
         }
@@ -128,14 +128,59 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
                 case REQUEST_IMAGE_CAPTURE:
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    saveBitmapToSharedPreferences(this, imageBitmap, "profile_image");
                     ivProfile.setImageBitmap(imageBitmap);
                     break;
                 case REQUEST_PICK_PHOTO:
                     Uri selectedImage = data.getData();
                     ivProfile.setImageURI(selectedImage);
+                    saveUriToSharedPreferences(this, selectedImage, "profile_image_uri");
                     break;
             }
         }
+    }
+
+    public  void saveBitmapToSharedPreferences(Context context, Bitmap bitmap, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, bitmapToBase64(bitmap));
+        editor.apply();
+    }
+
+    // Method to convert Bitmap to Base64 String
+    private  String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    // Method to retrieve Bitmap from SharedPreferences
+    public  Bitmap getBitmapFromSharedPreferences(Context context, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String encodedBitmap = sharedPreferences.getString(key, null);
+        return encodedBitmap != null ? base64ToBitmap(encodedBitmap) : null;
+    }
+
+    // Method to convert Base64 String to Bitmap
+    public static   Bitmap base64ToBitmap(String encodedBitmap) {
+        byte[] decodedString = Base64.decode(encodedBitmap, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
+    // Method to save URI in SharedPreferences
+    public  void saveUriToSharedPreferences(Context context, Uri uri, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, uri.toString());
+        editor.apply();
+    }
+
+    // Method to retrieve URI from SharedPreferences
+    public  Uri getUriFromSharedPreferences(Context context, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String uriString = sharedPreferences.getString(key, null);
+        return uriString != null ? Uri.parse(uriString) : null;
     }
 
 
@@ -155,5 +200,8 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
             editor.apply();
 
         }
+
     }
+
+
 }

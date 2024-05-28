@@ -45,6 +45,7 @@
 
             />
         <Button
+            android:id="@+id/btEditPp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -79,6 +80,8 @@
             android:text="x"
             />
         <Button
+            android:id="@+id/btEditFirstName"
+
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -119,6 +122,8 @@
             android:text="y"
             />
         <Button
+            android:id="@+id/btEditLastName"
+
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -157,6 +162,8 @@
             android:text="z"
             />
         <Button
+            android:id="@+id/btEditDateDialog"
+
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
