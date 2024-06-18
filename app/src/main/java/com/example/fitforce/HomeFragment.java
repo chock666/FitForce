@@ -13,7 +13,7 @@ import android.widget.Button;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
-    Button swimmingButton, runningButton, strengthButton, fitnessButton;
+    Button  runningButton, strengthButton, fitnessButton;
     View view;
     public HomeFragment() {
         // Required empty public constructor
@@ -28,7 +28,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
          view = inflater.inflate(R.layout.fragment_home, container, false);
-        swimmingButton = view.findViewById(R.id.swimming_button);
         runningButton = view.findViewById(R.id.running_button);
         strengthButton = view.findViewById(R.id.Strength_button);
         fitnessButton = view.findViewById(R.id.fitness_button);
@@ -36,7 +35,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fitnessButton.setOnClickListener(this);
 
         runningButton.setOnClickListener(this);
-        swimmingButton.setOnClickListener(this);
         return view;
     }
 
@@ -44,10 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (view == swimmingButton){
-            Intent switchActivityIntent = new Intent(getContext(), inSwimmingActivity.class);
-            startActivity(switchActivityIntent);
-        }
+
         if (view == runningButton){
             Intent switchActivityIntent = new Intent(getContext(), InRunningActivity.class);
             startActivity(switchActivityIntent);

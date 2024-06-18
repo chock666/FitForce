@@ -22,16 +22,7 @@
         android:textSize="40sp"
         android:textStyle="italic|bold" />
 
-    <Button
-        android:id="@+id/swimming_button"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:backgroundTint="@color/white"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:drawableBottom="@drawable/swimming_man_button"
 
-        />
 
     <Button
         android:layout_width="match_parent"

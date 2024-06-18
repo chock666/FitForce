@@ -69,7 +69,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
             // Retrieve the saved first name and last name from SharedPreferences
-            SharedPreferences preferences = requireActivity().getSharedPreferences("names", MODE_PRIVATE);
+             preferences = requireActivity().getSharedPreferences("names", MODE_PRIVATE);
             String savedFirstName = preferences.getString("firstName", "");
             String savedLastName = preferences.getString("lastName", "");
 

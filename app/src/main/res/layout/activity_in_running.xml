@@ -4,12 +4,181 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".InRunningActivity">
 
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="running activity"
+        android:layout_height="wrap_content"
+        android:text="today's run is: "
+        android:textSize="50dp"
+
+        android:gravity="center"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pace:"
+        android:layout_marginTop="40dp"
+        android:textSize="30dp"
+
+        />
+
+        <TextView
+            android:id="@+id/RunningPace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5:30 mpk"
+            android:layout_marginTop="40dp"
+            android:textSize="30dp"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="distance:"
+            android:layout_marginTop="40dp"
+            android:textSize="30dp"
+
+            />
+        <TextView
+            android:id="@+id/RunningDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3KM"
+            android:layout_marginTop="40dp"
+            android:textSize="30dp"
+
+            />
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="if this run is too hard or too easy for you, put attantion to the buttons down below, you can adjust the settings to your level"
+        android:layout_marginTop="40dp"
+        android:textSize="25dp"
+
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="45dp"
+        >
+
+        <Button
+            android:id="@+id/btRunQuicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="less time"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <Button
+            android:id="@+id/btRunSlower"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="more time"
+            android:backgroundTint="#4CAF50"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="45dp"
+        >
+
+        <Button
+            android:id="@+id/btRunFurther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="more distance"
+            android:backgroundTint="#4CAF50"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <Button
+            android:id="@+id/btRunLess"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="less distance"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+
+            />
+    </LinearLayout>
+
+
+
+
+    <Button
+        android:id="@+id/btRunningEnd"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+
+        android:text="I did it"
+
+        />
+    <Button
+        android:id="@+id/btRunningCancel"
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:backgroundTint="#FF1100"
+        android:layout_marginTop="10dp"
+
+        android:text="cancel"
+
+        />
+
+
 </LinearLayout>
