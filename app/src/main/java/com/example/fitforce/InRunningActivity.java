@@ -18,7 +18,7 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
     String [] distances = {"1 km", "1.5 km", "2 km","2.5 km", "3 km", "3.5 km","4 km", "4.5 km", "5 km",
             "5.5 km", "6 km","6.5 km", "7 km", "7.5 km"};
     int sessionsCounter;
-    Button btRunQuicker, btRunSlower,btRunFurther,btRunLess, btRunningEnd;
+    Button btRunQuicker, btRunSlower,btRunFurther,btRunLess, btRunningEnd, btCancel;
     TextView pace, distance;
 
     SharedPreferences sp, checker;
@@ -32,11 +32,13 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
         btRunQuicker = findViewById(R.id.btRunQuicker);
         btRunSlower = findViewById(R.id.btRunSlower);
         btRunningEnd = findViewById(R.id.btRunningEnd);
+        btCancel = findViewById(R.id.btRunningCancel);
         pace = findViewById(R.id.RunningPace);
         distance = findViewById(R.id.RunningDistance);
         btRunFurther = findViewById(R.id.btRunFurther);
         btRunLess = findViewById(R.id.btRunLess);
         btRunQuicker.setOnClickListener(this);
+        btCancel.setOnClickListener(this);
         btRunLess.setOnClickListener(this);
         btRunFurther.setOnClickListener(this);
         btRunSlower.setOnClickListener(this);
@@ -49,6 +51,23 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
             editor.putString("Times",times[7]);
             editor.putString("distances", distances[4]);
             editor.apply();
+        }
+
+        if (sp.getInt("sessionsCounter", 0)%4-2==0){
+            for (int i=0; i<=distances.length; i++){
+                if(distances[i].equals(sp.getString("distances", "").toString())){
+                    if(i<times.length){
+                        editor.putString("distances",distances[i+1]);
+                        editor.apply();
+
+                        distance.setText(sp.getString("distances", "").toString());
+                    }
+
+                    break;
+                }
+
+            }
+
         }
         if (sp.getInt("sessionsCounter", 0)%4==0){
 
@@ -149,11 +168,20 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
         }
         if (v==btRunningEnd){
             startActivity(new Intent(InRunningActivity.this, MainActivity.class));
-            sessionsCounter = sp.getInt("sessionsCounter", 0);
-            editor.putInt("sessionsCounter", sessionsCounter+1);
-            editor.apply();
+            addOneToSessionsCounter();
+        }
+
+        if (v==btCancel){
+            startActivity(new Intent(InRunningActivity.this, MainActivity.class));
+            Toast.makeText(getApplicationContext(), "Session is canceled", Toast.LENGTH_LONG).show();
         }
 
 
+    }
+
+    public void addOneToSessionsCounter (){
+        sessionsCounter = sp.getInt("sessionsCounter", 0);
+        editor.putInt("sessionsCounter", sessionsCounter+1);
+        editor.apply();
     }
 }

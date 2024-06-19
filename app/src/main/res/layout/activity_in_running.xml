@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="today's run is: "
         android:textSize="50dp"
+        android:layout_weight="2"
 
         android:gravity="center"
         />
@@ -20,12 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+
+
         >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="pace:"
-        android:layout_marginTop="40dp"
         android:textSize="30dp"
 
         />
@@ -35,7 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5:30 mpk"
-            android:layout_marginTop="40dp"
             android:textSize="30dp"
 
             />
@@ -44,13 +47,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+
         android:orientation="horizontal"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="distance:"
-            android:layout_marginTop="40dp"
             android:textSize="30dp"
 
             />
@@ -59,7 +64,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3KM"
-            android:layout_marginTop="40dp"
             android:textSize="30dp"
 
             />
@@ -80,7 +84,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="if this run is too hard or too easy for you, put attantion to the buttons down below, you can adjust the settings to your level"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+
         android:textSize="25dp"
 
         />
@@ -91,7 +97,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+
         >
 
         <Button
@@ -124,7 +132,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"
+
         >
 
         <Button
@@ -163,6 +173,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
+        android:layout_weight="1"
+
 
         android:text="I did it"
 
@@ -171,10 +183,12 @@
         android:id="@+id/btRunningCancel"
 
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="#FF1100"
         android:layout_marginTop="10dp"
+        android:layout_weight="1"
+
 
         android:text="cancel"
 
