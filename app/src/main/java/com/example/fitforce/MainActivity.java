@@ -84,9 +84,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     private static final ExerciseInfo[] PREPOPULATE_DATA = {
-            new ExerciseInfo( "Push Up", "A basic upper body exercise", "Chest", "http://example.com/pushup", "Strengthens chest and arms"),
-            new ExerciseInfo("Squat", "A basic lower body exercise", "Legs", "http://example.com/squat", "Strengthens legs and glutes"),
-            // Add more fixed fields here
+            new ExerciseInfo( "Push Up", "A basic chest exercise", "Chest", "http://example.com/pushup", "Place hands in shoulder-width, lower chest, then push up."),
+            new ExerciseInfo( "Push Up - wide", "A  chest exercise that works mainly on the wider parts of the chest", "chest, shoulders, and upper arms", "http://example.com/pushup", "Place hands wider than shoulder-width, lower chest, then push up."),
+            new ExerciseInfo( "Push Up - narrow", "A  chest exercise that works mainly on the narrower parts of the chest", "triceps and chest ", "http://example.com/pushup", "Place hands narrower than shoulder-width, lower chest, then push up."),
+            new ExerciseInfo("Squat", "A basic lower body exercise", "quadriceps, hamstrings and butt", "http://example.com/squat", "Stand with feet shoulder-width apart, lower hips back and down, then rise back up."),
+            new ExerciseInfo("pull up - wide", "A  back exercise that works mainly on the wider parts of the back", "back and arms", "http://example.com/squat", "Grip the bar wide, pull up until your chin is over the bar, then lower back down."),
+            new ExerciseInfo("pull up ", "A  basic back exercise ", "back and arms", "http://example.com/squat", "Grip the bar in shoulders width , pull up until your chin is over the bar, then lower back down."),
+            new ExerciseInfo("pull up - underhand grip", "A back and biceps exercise", "back and biceps", "http://example.com/squat", "Grab the bar with palms facing you, pull your chin over the bar, then lower yourself down."),
+            new ExerciseInfo("Lunges", "A basic lower body exercise", "Legs and butt", "http://example.com/squat", "Step forward with one leg, bending both knees until the front thigh is parallel to the floor, then return to starting position and switch legs."),
+            new ExerciseInfo("Dips", "A basic triceps exercise", "triceps", "http://example.com/squat", "Grip bars, lower the body and then extend arms back up."),
+            new ExerciseInfo("Planks", "A basic abs exercise", "abs", "http://example.com/squat", "Hold a plank by supporting your body on your forearms and toes, keeping your back straight and core engaged."),
+            new ExerciseInfo("Burpees", "full-body exercise", "legs, hips, buttocks, abdomen, arms, chest, and shoulders", "http://example.com/squat", "Perform a burpee by squatting, kicking back into a plank, doing a push-up, jumping feet to hands, and explosively jumping up."),
+
     };
 
 

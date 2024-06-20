@@ -12,8 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="today's run is: "
-        android:textSize="50dp"
+
+        android:textSize="40dp"
         android:layout_weight="2"
+        android:layout_gravity="center"
 
         android:gravity="center"
         />
@@ -29,6 +31,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+
         android:text="pace:"
         android:textSize="30dp"
 
@@ -39,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5:30 mpk"
+
             android:textSize="30dp"
 
             />
@@ -56,6 +61,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="distance:"
+            android:fontFamily="monospace"
+
             android:textSize="30dp"
 
             />

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".strengthSessionActivity">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="title"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="45dp"
+        android:layout_marginTop="15dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="descripsion"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:layout_marginTop="15dp"
+        />
+
+    <WebView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/wvAnimation"
+        android:layout_gravity="center"
+
+        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="explain"
+
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:layout_marginTop="15dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="muscle group"
+
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Still don't know how to do the exercise? Click the link"
+
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="link"
+
+        android:textSize="35dp"
+        android:layout_marginTop="15dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:text="done!"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:layout_marginTop="15dp"
+        />
+
+</LinearLayout>
