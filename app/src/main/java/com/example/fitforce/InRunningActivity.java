@@ -47,29 +47,25 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
         editor = sp.edit();
         editor.apply();
         checker = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-        if (checker.getBoolean("isFirstRun", false)){
-            editor.putString("Times",times[7]);
-            editor.putString("distances", distances[4]);
-            editor.apply();
-        }
+       // if (checker.getBoolean("isFirstRun", true)){
+        try {
+            if (sp.getInt("sessionsCounter", 0)%4-2==0){
+                for (int i=0; i<=distances.length; i++){
+                    if(distances[i].equals(sp.getString("distances", "").toString())){
+                        if(i<times.length){
+                            editor.putString("distances",distances[i+1]);
+                            editor.apply();
 
-        if (sp.getInt("sessionsCounter", 0)%4-2==0){
-            for (int i=0; i<=distances.length; i++){
-                if(distances[i].equals(sp.getString("distances", "").toString())){
-                    if(i<times.length){
-                        editor.putString("distances",distances[i+1]);
-                        editor.apply();
+                            distance.setText(sp.getString("distances", "").toString());
+                        }
 
-                        distance.setText(sp.getString("distances", "").toString());
+                        break;
                     }
 
-                    break;
                 }
 
             }
-
-        }
-        if (sp.getInt("sessionsCounter", 0)%4==0){
+            if (sp.getInt("sessionsCounter", 0)%4==0){
 
                 for (int i=times.length-1; i>=0; i--){
                     if(times[i].equals(sp.getString("Times", "").toString())){
@@ -84,13 +80,63 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
                     }
 
 
+                }
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            editor.putString("Times", times[7]);
+            editor.putString("distances", distances[4]);
+            editor.apply();
         }
+
+     //   }
+
+//        if (sp.getInt("sessionsCounter", 0)%4-2==0){
+//            for (int i=0; i<=distances.length; i++){
+//                if(distances[i].equals(sp.getString("distances", "").toString())){
+//                    if(i<times.length){
+//                        editor.putString("distances",distances[i+1]);
+//                        editor.apply();
+//
+//                        distance.setText(sp.getString("distances", "").toString());
+//                    }
+//
+//                    break;
+//                }
+//
+//            }
+//
+//        }
+//        if (sp.getInt("sessionsCounter", 0)%4==0){
+//
+//                for (int i=times.length-1; i>=0; i--){
+//                    if(times[i].equals(sp.getString("Times", "").toString())){
+//                        if(i>0){
+//                            editor.putString("Times",times[i-1]);
+//                            editor.apply();
+//
+//                            pace.setText(sp.getString("Times", "").toString());
+//                        }
+//
+//                        break;
+//                    }
+//
+//
+//            }
+//        }
 
 
 
         pace.setText(sp.getString("Times","" ).toString());
         distance.setText(sp.getString("distances","" ).toString());
+
+        if (pace.equals("")||pace.equals("")){
+
+            pace.setText(times[7].toString());
+            distance.setText(distances[4].toString());
+            editor.putString("Times", times[7]);
+            editor.putString("distances", distances[4]);
+            editor.apply();
+        }
 
     }
 
