@@ -53,17 +53,14 @@ import java.util.Calendar;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
-    ImageView pp;
-    TextView firstName, lastName, date;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_PICK_PHOTO = 2;
-
-    Button btEditFirstName, btEditLastName, btEditpp, btEditBirthDate, popNoti, cancelNoti, changeNotiTime;
-    ActivityResultLauncher<Intent> startCamera;
-    ActivityResultLauncher<Intent> launcher;
-    Uri cam_uri;
+    ImageView pp; // תמונת פרופיל
+    TextView firstName, lastName, date;// טקסטים שיציגו את הערכים האחרונים שהכניס המשתמש
+    SharedPreferences preferences;//עתיד לשלוף את השמות מהמערכת
+    SharedPreferences.Editor editor;//עתיד לשמור את השמות במערכת
+    Button btEditFirstName, btEditLastName, btEditpp, btEditBirthDate; // כפתורים שיפתחו דיאלוגים לעריכה
+    ActivityResultLauncher<Intent> startCamera;//תחליף לstartActivityForResult בשביל המצלמה
+    ActivityResultLauncher<Intent> launcher;//תחליף לstartActivityForResult בשביל הגלריה
+    Uri cam_uri; // מיקום התמונה במכשיר
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -82,58 +79,22 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         btEditBirthDate = view.findViewById(R.id.btEditDateDialog);
         btEditpp = view.findViewById(R.id.btEditPp);
         firstName.setOnClickListener(this);
-
-
         btEditFirstName.setOnClickListener(this);
         btEditLastName.setOnClickListener(this);
         btEditpp.setOnClickListener(this);
         btEditBirthDate.setOnClickListener(this);
+
+
+        setupImageCaptureAndSelection();
+
         SharedPreferences imagePreferences = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
-
-
-           launcher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK
-                            && result.getData() != null) {
-                        cam_uri = result.getData().getData();
-                        String realPath = getRealPathFromURI(getContext(), cam_uri);
-                        if (realPath != null) {
-                            // Now you can use the real path for your image processing
-                            pp.setImageURI(Uri.parse(realPath));
-                            saveUriToSharedPreferences(getContext(), Uri.parse(realPath), "profile_image");
-                        } else {
-                            // Handle the case where the real path could not be found
-                            pp.setImageURI(cam_uri);
-                            saveUriToSharedPreferences(getContext(), cam_uri, "profile_image");
-                        }
-                    }
-                }
-        );
-
-         startCamera = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == RESULT_OK) {
-                            // There are no request codes
-                            pp.setImageURI(cam_uri);
-
-                            saveUriToSharedPreferences(getContext(), cam_uri, "profile_image");
-
-                        }
-                    }
-                }
-        );
-        // Retrieve the saved first name and last name from SharedPreferences
         preferences = requireActivity().getSharedPreferences("names", MODE_PRIVATE);
         String savedFirstName = preferences.getString("firstName", "");
         String savedLastName = preferences.getString("lastName", "");
-
-        // Set the TextViews to display the saved first name and last name
         firstName.setText(savedFirstName);
         lastName.setText(savedLastName);
+
+
         SharedPreferences datePreferences = requireActivity().getSharedPreferences("dates", MODE_PRIVATE);
         int savedYear = datePreferences.getInt("year", -1);
         int savedMonth = datePreferences.getInt("month", -1);
@@ -144,37 +105,21 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             String formattedDate = savedDay + "/" + savedMonth + "/" + savedYear;
             // Set the TextView to display the saved date
             date.setText(formattedDate);
-        } else {
-            // Handle case where no date is saved
         }
-        // Retrieve the saved image resource ID from SharedPreferences
 
-        // Get reference to the ImageView in the fragment layout
         pp.setImageURI(Uri.parse(imagePreferences.getString("profile_image", "")));
 
 
         return view;
     }
 
-    public void saveToSharedPreferences(Context context, String key, String value) {
-        // Get the SharedPreferences object
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE);
 
-        // Get the SharedPreferences editor to make changes
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Put the key-value pair in SharedPreferences
-        editor.putString(key, value);
-
-        // Apply the changes
-        editor.apply();
-    }
 
 
     @Override
     public void onClick(View v) {
         if (v == btEditFirstName) {
-//
+
             dialogForChangingStringValue("Change first name", "write the new name down below", "names", "firstName", firstName);
         }
 
@@ -183,32 +128,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         }
         if (v == btEditBirthDate) {
-            Calendar systemCalendar = Calendar.getInstance();
-            int year = systemCalendar.get(Calendar.YEAR);
-            int month = systemCalendar.get(Calendar.MONTH);
-            int day = systemCalendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    // Increment month since DatePickerDialog returns month from 0-11
-                    monthOfYear = monthOfYear + 1;
-
-                    String str = "You selected: " + dayOfMonth + "/" + monthOfYear + "/" + year;
-                    // Assuming 'date' is a TextView defined in your fragment
-                    date.setText(str);
-
-                    // Save the selected date to SharedPreferences
-                    SharedPreferences preferences = requireContext().getSharedPreferences("dates", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putInt("year", year);
-                    editor.putInt("month", monthOfYear);
-                    editor.putInt("day", dayOfMonth);
-                    editor.apply();
-                }
-            }, year, month, day);
-
-            datePickerDialog.show();
+            selectDate();
         }
         if (v == btEditpp) {
             // Create a dialog to choose between Camera and Gallery
@@ -240,14 +160,36 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             pp.setImageURI(Uri.parse(imagePreferences.getString("profile_image", "")));
 
         }
-        if (v == popNoti) {
-
 
             }
+    public void selectDate(){
+        Calendar systemCalendar = Calendar.getInstance();
+        int year = systemCalendar.get(Calendar.YEAR);
+        int month = systemCalendar.get(Calendar.MONTH);
+        int day = systemCalendar.get(Calendar.DAY_OF_MONTH);
 
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // Increment month since DatePickerDialog returns month from 0-11
+                monthOfYear = monthOfYear + 1;
 
+                String str = "You selected: " + dayOfMonth + "/" + monthOfYear + "/" + year;
+                // Assuming 'date' is a TextView defined in your fragment
+                date.setText(str);
+
+                // Save the selected date to SharedPreferences
+                SharedPreferences preferences = requireContext().getSharedPreferences("dates", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("year", year);
+                editor.putInt("month", monthOfYear);
+                editor.putInt("day", dayOfMonth);
+                editor.apply();
             }
+        }, year, month, day);
 
+        datePickerDialog.show();
+    }
     public String getRealPathFromURI(Context context, Uri uri) {
         String result = null;
         String[] proj = {MediaStore.Images.Media.DATA};
@@ -271,37 +213,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cam_uri);
 
-        //startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE); // OLD WAY
-        startCamera.launch(cameraIntent); // VERY NEW WAY
+        startCamera.launch(cameraIntent);
     }
 
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            switch (requestCode) {
-//                case REQUEST_IMAGE_CAPTURE:
-//                    Bundle extras = data.getExtras();
-//                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                    saveBitmapToSharedPreferences(this.getContext(), imageBitmap, "profile_image");
-//                    pp.setImageBitmap(imageBitmap);
-//                    break;
-//                case REQUEST_PICK_PHOTO:
-//                    Uri selectedImage = data.getData();
-//                    pp.setImageURI(selectedImage);
-//                    saveUriToSharedPreferences(this.getContext(), selectedImage, "profile_image_uri");
-//                    break;
-//            }
-//        }
-//    }
 
 
 
-    public static   Bitmap base64ToBitmap(String encodedBitmap) {
-        byte[] decodedString = Base64.decode(encodedBitmap, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    }
 
     // Method to save URI in SharedPreferences
     public  void saveUriToSharedPreferences(Context context, Uri uri, String key) {
@@ -311,20 +229,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.apply();
     }
 
-    public  void saveBitmapToSharedPreferences(Context context, Bitmap bitmap, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, bitmapToBase64(bitmap));
-        editor.apply();
-    }
 
-    // Method to convert Bitmap to Base64 String
-    private  String bitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
+
             public void dialogForChangingStringValue (String mainTitleOfDialog,String secondaryTitleOfDialog, String whereToSaveOnSharedPreferance, String inWhatName,TextView WhereToDisplay ){
             AlertDialog.Builder alert = new AlertDialog.Builder(this.getContext());
 
@@ -356,6 +262,43 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
             alert.show();
         }
+
+        public void setupImageCaptureAndSelection (){
+            launcher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK
+                                && result.getData() != null) {
+                            cam_uri = result.getData().getData();
+                            String realPath = getRealPathFromURI(getContext(), cam_uri);
+                            if (realPath != null) {
+                                // Now you can use the real path for your image processing
+                                pp.setImageURI(Uri.parse(realPath));
+                                saveUriToSharedPreferences(getContext(), Uri.parse(realPath), "profile_image");
+                            } else {
+                                // Handle the case where the real path could not be found
+                                pp.setImageURI(cam_uri);
+                                saveUriToSharedPreferences(getContext(), cam_uri, "profile_image");
+                            }
+                        }
+                    }
+            );
+
+            startCamera = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK) {
+                            // There are no request codes
+                            pp.setImageURI(cam_uri);
+
+                            saveUriToSharedPreferences(getContext(), cam_uri, "profile_image");
+
+                        }
+                    }
+            );
+        }
+
+
 
 
 

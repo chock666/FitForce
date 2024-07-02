@@ -32,24 +32,17 @@ public class MainActivity extends AppCompatActivity
         implements BottomNavigationView
         .OnNavigationItemSelectedListener {
 
-    BottomNavigationView bottomNavigationView;
+    BottomNavigationView bottomNavigationView;// כפתורי ניווט שמכילים את הפראגמנט
 
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    HomeFragment HomeFragment = new HomeFragment();
-    StatsFragment StatsFragment = new StatsFragment();
-    SettingsFragment SettingsFragment = new SettingsFragment();
+    HomeFragment HomeFragment = new HomeFragment(); // פראגמנט למסך בית
+    StatsFragment StatsFragment = new StatsFragment();// פראגמנט למסך סטטיסטיקה
+    SettingsFragment SettingsFragment = new SettingsFragment();// פראגמנט למסך הגדרות
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sp = getSharedPreferences("notiTime", MODE_PRIVATE);
-        editor = sp.edit();
-        editor.putInt("hour", 18);
-        editor.putInt("minute", 00);
 
-        editor.apply();
 
 
         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)

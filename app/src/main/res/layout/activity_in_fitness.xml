@@ -54,7 +54,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="recommended: 2-3 sessions a week"
+        android:text="recommended: up to 2 sessions a week"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_weight="1"

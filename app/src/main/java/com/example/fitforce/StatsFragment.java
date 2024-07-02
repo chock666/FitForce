@@ -2,7 +2,6 @@ package com.example.fitforce;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,17 +13,17 @@ import android.widget.TextView;
 
 public class StatsFragment extends Fragment {
 
-    private BarChartView strengthBarChart;
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    private TextView tvAllCount, tvRunningCount, tvFitnessCount,tvStrengthCount;
+    private BarChartView BarChart; // תרשים עמודות שימחיש את מספר האימונים
+    SharedPreferences sp;// למשיכה של נתוני האימונים
+    SharedPreferences.Editor editor;// עורך של הנ"ל
+    private TextView tvAllCount, tvRunningCount, tvFitnessCount,tvStrengthCount;// טקסטים שיציגו את מספר האימונים
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
-        strengthBarChart = view.findViewById(R.id.strengthBarChart);
+        BarChart = view.findViewById(R.id.strengthBarChart);
         tvAllCount = view.findViewById(R.id.allCount);
         tvRunningCount = view.findViewById(R.id.runningCount);
         tvFitnessCount = view.findViewById(R.id.fitnessCount);
@@ -62,7 +61,7 @@ public class StatsFragment extends Fragment {
 
 
         // Set data for charts
-        strengthBarChart.setData(CharmData);
+        BarChart.setData(CharmData);
 
         return view;
     }

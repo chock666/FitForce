@@ -16,10 +16,9 @@ import android.widget.TextView;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
-    Button  runningButton, strengthButton, fitnessButton;
-    SharedPreferences sp;
-    TextView tvName;
-    View view;
+    Button  runningButton, strengthButton, fitnessButton; // כפתורים שמעבירים את המשתמש לאימונים
+    SharedPreferences sp; //  לשליפת השם
+    TextView tvName;// מקום לכתיבת השם
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -29,10 +28,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
 
-
-         view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         runningButton = view.findViewById(R.id.running_button);
         strengthButton = view.findViewById(R.id.Strength_button);
         tvName = view.findViewById(R.id.name);

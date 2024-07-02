@@ -28,7 +28,7 @@ public class BarChartView extends View {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.GRAY);
         paint.setStyle(Paint.Style.FILL);
     }
 
