@@ -1,6 +1,14 @@
 package com.example.fitforce;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -8,6 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -15,23 +26,33 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView
         .OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
-    ImageView pp;
 
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
     HomeFragment HomeFragment = new HomeFragment();
     StatsFragment StatsFragment = new StatsFragment();
     SettingsFragment SettingsFragment = new SettingsFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sp = getSharedPreferences("notiTime", MODE_PRIVATE);
+        editor = sp.edit();
+        editor.putInt("hour", 18);
+        editor.putInt("minute", 00);
+
+        editor.apply();
 
 
-         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
@@ -53,19 +74,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setSelectedItemId(R.id.home);
 
 
-
-
-
-
-
     }
-
-
-
-
-
-
-
 
 
     @Override
@@ -98,5 +107,9 @@ public class MainActivity extends AppCompatActivity
         return false;
 
     }
+
+
+
+
 }
 

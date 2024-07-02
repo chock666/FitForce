@@ -1,12 +1,18 @@
 package com.example.fitforce;
 
+import static java.security.AccessController.getContext;
+
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,6 +26,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,6 +39,10 @@ import java.util.Calendar;
 
 public class profileCreationActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView ivProfile;
+    Uri cam_uri;
+    SharedPreferences count;
+    SharedPreferences.Editor editorCount;
+
     EditText etFirstName, etLastName;
     SharedPreferences preferences;
 
@@ -38,12 +52,17 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PICK_PHOTO = 2;
     private static final int PERMISSION_REQUEST_CODE = 100;
+    ActivityResultLauncher<Intent> startCamera;
+    ActivityResultLauncher<Intent> launcher;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_creation);
-
+        count = getSharedPreferences("sessionsCounter", MODE_PRIVATE);
+        editorCount = count.edit();
         if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -52,6 +71,11 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
                     android.Manifest.permission.READ_EXTERNAL_STORAGE,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         }
+        editorCount.putInt("fitness", 0);
+        editorCount.putInt("strength", 0);
+        editorCount.putInt("running", 0);
+
+        editorCount.apply();
         etFirstName = findViewById(R.id.etFirstName);
         etLastName = findViewById(R.id.etLastName);
         btSubmitProfileCreationPage = findViewById(R.id.btSubmitProfileCreationPage);
@@ -60,7 +84,41 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
         btSubmitProfileCreationPage.setOnClickListener(this);
         btBirthDateChoosing.setOnClickListener(this);
         ivProfile.setOnClickListener(this);
+        launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK
+                            && result.getData() != null) {
+                        cam_uri = result.getData().getData();
+                        String realPath = getRealPathFromURI(this, cam_uri);
+                        if (realPath != null) {
+                            // Now you can use the real path for your image processing
+                            ivProfile.setImageURI(Uri.parse(realPath));
+                            saveUriToSharedPreferences(this, Uri.parse(realPath), "profile_image");
+                        } else {
+                            // Handle the case where the real path could not be found
+                            ivProfile.setImageURI(cam_uri);
+                            saveUriToSharedPreferences(this, cam_uri, "profile_image");
+                        }
+                    }
+                }
+        );
 
+        startCamera = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK) {
+                            // There are no request codes
+                            ivProfile.setImageURI(cam_uri);
+
+                            saveUriToSharedPreferences(profileCreationActivity.this, cam_uri, "profile_image");
+
+                        }
+                    }
+                }
+        );
     }
 
     @Override
@@ -105,19 +163,44 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case 0: // Take Photo
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
+                            pickCamera();
                             break;
                         case 1: // Choose from Gallery
-                            Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(pickPhotoIntent, REQUEST_PICK_PHOTO);
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            launcher.launch(intent);
                             break;
                     }
                 }
             });
             builder.show();
         }
+    }
+
+    public String getRealPathFromURI(Context context, Uri uri) {
+        String result = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                result = cursor.getString(column_index);
+            }
+            cursor.close();
+        }
+        return result;
+    }
+
+    public void pickCamera() {
+        ContentValues values = new ContentValues();
+
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
+        cam_uri =this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cam_uri);
+
+        //startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE); // OLD WAY
+        startCamera.launch(cameraIntent); // VERY NEW WAY
     }
 
     @Override

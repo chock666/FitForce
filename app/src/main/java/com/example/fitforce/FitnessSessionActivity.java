@@ -8,76 +8,60 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-
 import android.widget.Toast;
 
-
-public class strengthSessionActivity extends AppCompatActivity implements View.OnClickListener {
-
-
-
+public class FitnessSessionActivity extends AppCompatActivity implements View.OnClickListener {
     TextView tvExerciseTitle, tvExercisedDescription, tvExercisedExplaination, tvExercisedMuscle, tvExerciseLink, type;
     Button btNext;
     exerciseHelper sh;
     SharedPreferences sp,count;
     SharedPreferences.Editor editor,countEditor;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_strength_session);
-        count = getSharedPreferences("sessionsCounter", MODE_PRIVATE);
-        countEditor = count.edit();
-
+        setContentView(R.layout.activity_fitness_session);
         sp = getSharedPreferences("exerciseID", MODE_PRIVATE);
         editor = sp.edit();
-        tvExerciseTitle = findViewById(R.id.tvTitle);
-        tvExercisedDescription = findViewById(R.id.tvDescription);
-        tvExercisedMuscle = findViewById(R.id.tvMuscleGroup);
-        tvExercisedExplaination = findViewById(R.id.tvExpalin);
-        tvExerciseLink = findViewById(R.id.tvLink);
-
-        btNext = findViewById(R.id.btNextExercise);
+        count = getSharedPreferences("sessionsCounter", MODE_PRIVATE);
+        countEditor = count.edit();
+        tvExerciseTitle = findViewById(R.id.tvFitTitle);
+        tvExercisedDescription = findViewById(R.id.tvFitDescription);
+        tvExercisedMuscle = findViewById(R.id.tvFitMuscleGroup);
+        tvExercisedExplaination = findViewById(R.id.tvFitExpalin);
+        tvExerciseLink = findViewById(R.id.tvFitLink);
+        btNext = findViewById(R.id.btNextFitExercise);
         btNext.setOnClickListener(this);
         sh = new exerciseHelper(this);
         sh.open();
+
         try{
-            insertFieldsByID(sp.getInt("i", 0), "strength");
+            insertFieldsByID(sp.getInt("i", 0), "fitness");
+
         }
         catch (IndexOutOfBoundsException e){
             editor.putInt("i", 0);
             editor.apply();
-            insertFieldsByID(sp.getInt("i", 0), "strength");
+            insertFieldsByID(sp.getInt("i", 0), "fitness");
+
         }
-
-
     }
-
 
     @Override
     public void onClick(View view) {
-    if ( view == btNext){
-        if (sp.getInt("i",0)+1>=sh.sizeByType("strength")){
-            startActivity(new Intent(strengthSessionActivity.this, MainActivity.class));
-            Toast.makeText(getApplicationContext(), "Session ended successfully!", Toast.LENGTH_SHORT).show();
-            editor.putInt("i", 0);
-            editor.apply();
-            countEditor.putInt("strength", count.getInt("strength",-1)+1);
-            countEditor.apply();
-        }
-        else {
-            startActivity(new Intent(strengthSessionActivity.this, TimerActivity.class));
-            editor.putInt("i", sp.getInt("i", 0)+1);
-            editor.apply();
-
-        }
+        if ( view == btNext){
+            if (sp.getInt("i",0)+1>=sh.getAllExercises().size()){
+                startActivity(new Intent(FitnessSessionActivity.this, MainActivity.class));
+                Toast.makeText(getApplicationContext(), "Session ended successfully!", Toast.LENGTH_SHORT).show();
+                editor.putInt("i", 0);
+                editor.apply();
+                countEditor.putInt("fitness", count.getInt("fitness",-1)+1);
+                countEditor.apply();
             }
-
-
-
+            else {
+                startActivity(new Intent(FitnessSessionActivity.this, TimerActivity.class));
+            }
+        }
     }
 
 
@@ -88,6 +72,7 @@ public class strengthSessionActivity extends AppCompatActivity implements View.O
             tvExercisedMuscle.setText(sh.getAllExercises().get(i).getMuscleGroup().toString());
             tvExerciseTitle.setText(sh.getAllExercises().get(i).getExerciseName().toString());
             tvExercisedDescription.setText(sh.getAllExercises().get(i).getDescription().toString());
+
         }
         else{
             editor.putInt("i", sp.getInt("i", 0)+1);
@@ -100,6 +85,6 @@ public class strengthSessionActivity extends AppCompatActivity implements View.O
     protected void onDestroy() {
         super.onDestroy();
         editor.putInt("i", 0);
-
+        editor.apply();
     }
 }

@@ -10,7 +10,7 @@
 
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvFitTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -22,7 +22,7 @@
         android:layout_marginTop="15dp"
         />
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvFitDescription"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
 
 
     <TextView
-        android:id="@+id/tvExpalin"
+        android:id="@+id/tvFitExpalin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -48,7 +48,7 @@
         android:layout_marginTop="15dp"
         />
     <TextView
-        android:id="@+id/tvMuscleGroup"
+        android:id="@+id/tvFitMuscleGroup"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
         android:layout_marginTop="15dp"
         />
     <TextView
-        android:id="@+id/tvLink"
+        android:id="@+id/tvFitLink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -85,7 +85,7 @@
         android:layout_marginTop="15dp"
         />
     <Button
-        android:id="@+id/btNextExercise"
+        android:id="@+id/btNextFitExercise"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"

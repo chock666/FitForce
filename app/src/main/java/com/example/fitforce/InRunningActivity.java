@@ -43,13 +43,12 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
         btRunFurther.setOnClickListener(this);
         btRunSlower.setOnClickListener(this);
         btRunningEnd.setOnClickListener(this);
-        sp = getSharedPreferences("running", MODE_PRIVATE);
+        sp = getSharedPreferences("sessionsCounter", MODE_PRIVATE);
         editor = sp.edit();
         editor.apply();
         checker = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-       // if (checker.getBoolean("isFirstRun", true)){
         try {
-            if (sp.getInt("sessionsCounter", 0)%4-2==0){
+            if (sp.getInt("running", 0)%4-2==0){
                 for (int i=0; i<=distances.length; i++){
                     if(distances[i].equals(sp.getString("distances", "").toString())){
                         if(i<times.length){
@@ -65,7 +64,7 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
                 }
 
             }
-            if (sp.getInt("sessionsCounter", 0)%4==0){
+            if (sp.getInt("running", 0)%4==0){
 
                 for (int i=times.length-1; i>=0; i--){
                     if(times[i].equals(sp.getString("Times", "").toString())){
@@ -88,48 +87,13 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
             editor.apply();
         }
 
-     //   }
-
-//        if (sp.getInt("sessionsCounter", 0)%4-2==0){
-//            for (int i=0; i<=distances.length; i++){
-//                if(distances[i].equals(sp.getString("distances", "").toString())){
-//                    if(i<times.length){
-//                        editor.putString("distances",distances[i+1]);
-//                        editor.apply();
-//
-//                        distance.setText(sp.getString("distances", "").toString());
-//                    }
-//
-//                    break;
-//                }
-//
-//            }
-//
-//        }
-//        if (sp.getInt("sessionsCounter", 0)%4==0){
-//
-//                for (int i=times.length-1; i>=0; i--){
-//                    if(times[i].equals(sp.getString("Times", "").toString())){
-//                        if(i>0){
-//                            editor.putString("Times",times[i-1]);
-//                            editor.apply();
-//
-//                            pace.setText(sp.getString("Times", "").toString());
-//                        }
-//
-//                        break;
-//                    }
-//
-//
-//            }
-//        }
 
 
 
         pace.setText(sp.getString("Times","" ).toString());
         distance.setText(sp.getString("distances","" ).toString());
 
-        if (pace.equals("")||pace.equals("")){
+        if (sp.getString("Times","" ).toString().equals("")||sp.getString("distances","" ).toString().equals("")){
 
             pace.setText(times[7].toString());
             distance.setText(distances[4].toString());
@@ -226,8 +190,8 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void addOneToSessionsCounter (){
-        sessionsCounter = sp.getInt("sessionsCounter", 0);
-        editor.putInt("sessionsCounter", sessionsCounter+1);
+        sessionsCounter = sp.getInt("running", 0);
+        editor.putInt("running", sessionsCounter+1);
         editor.apply();
     }
 }
