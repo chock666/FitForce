@@ -13,16 +13,17 @@ import androidx.appcompat.app.AppCompatActivity;
 public class InRunningActivity extends AppCompatActivity implements View.OnClickListener {
     String [] times = {"3:00 mpk", "3:20 mpk","3:40 mpk","4:00 mpk", "4:20 mpk"
             ,"4:40 mpk","5:00 mpk", "5:20 mpk","5:40 mpk","6:00 mpk",
-            "6:20 mpk","6:40 mpk","7:00 mpk"};
+            "6:20 mpk","6:40 mpk","7:00 mpk"}; // מערך שמכיל את כל הזמנים לריצה
 
     String [] distances = {"1 km", "1.5 km", "2 km","2.5 km", "3 km", "3.5 km","4 km", "4.5 km", "5 km",
-            "5.5 km", "6 km","6.5 km", "7 km", "7.5 km"};
-    int sessionsCounter;
-    Button btRunQuicker, btRunSlower,btRunFurther,btRunLess, btRunningEnd, btCancel;
-    TextView pace, distance;
+            "5.5 km", "6 km","6.5 km", "7 km", "7.5 km"};// מערך שמכיל את כל מרחקי הריצה
+    int sessionsCounter; //מונה אימונים - למסך הסטטיסטיקה
+    Button btRunQuicker, btRunSlower, btRunFurther,btRunLess,// כפתורי התאמת קצב ומרחק הריצה
+            btRunningEnd, btCancel;// כפתורי סיום הפעילות
+    TextView pace, distance;// טקסטים שיציגו את המרחק וקצב הריצה על פי הריצה האחרונה או על פי בחירת המשתמש
 
-    SharedPreferences sp, checker;
-    SharedPreferences.Editor editor;
+    SharedPreferences sp;// כאן יישמר מונה האימונים
+    SharedPreferences.Editor editor;// עריכה של הנ"ל
 
 
     @Override
@@ -45,8 +46,66 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
         btRunningEnd.setOnClickListener(this);
         sp = getSharedPreferences("sessionsCounter", MODE_PRIVATE);
         editor = sp.edit();
+
+
+
+        insertRunningValues();
+
+
+        pace.setText(sp.getString("Times","" ).toString());
+        distance.setText(sp.getString("distances","" ).toString());
+
+        if (sp.getString("Times","" ).toString().equals("")||sp.getString("distances","" ).toString().equals("")){
+
+            pace.setText(times[7].toString());
+            distance.setText(distances[4].toString());
+            editor.putString("Times", times[7]);
+            editor.putString("distances", distances[4]);
+            editor.apply();
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v== btRunQuicker){
+            runQuicker();
+
+        }
+
+        if(v== btRunSlower){
+            runSlower();
+
+        }
+        if(v== btRunFurther){
+            runFurther();
+
+        }
+
+        if(v== btRunLess){
+            runLess();
+
+        }
+        if (v==btRunningEnd){
+            startActivity(new Intent(InRunningActivity.this, MainActivity.class));
+            addOneToSessionsCounter();
+        }
+
+        if (v==btCancel){
+            startActivity(new Intent(InRunningActivity.this, MainActivity.class));
+            Toast.makeText(getApplicationContext(), "Session is canceled", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    public void addOneToSessionsCounter (){
+        sessionsCounter = sp.getInt("running", 0);
+        editor.putInt("running", sessionsCounter+1);
         editor.apply();
-        checker = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+    }
+
+    public void insertRunningValues(){
         try {
             if (sp.getInt("running", 0)%4-2==0){
                 for (int i=0; i<=distances.length; i++){
@@ -86,112 +145,75 @@ public class InRunningActivity extends AppCompatActivity implements View.OnClick
             editor.putString("distances", distances[4]);
             editor.apply();
         }
-
-
-
-
-        pace.setText(sp.getString("Times","" ).toString());
-        distance.setText(sp.getString("distances","" ).toString());
-
-        if (sp.getString("Times","" ).toString().equals("")||sp.getString("distances","" ).toString().equals("")){
-
-            pace.setText(times[7].toString());
-            distance.setText(distances[4].toString());
-            editor.putString("Times", times[7]);
-            editor.putString("distances", distances[4]);
-            editor.apply();
-        }
-
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v== btRunQuicker){
-            for (int i=times.length-1; i>=0; i--){
-                if(times[i].equals(sp.getString("Times", "").toString())){
-                    if(i>0){
-                        editor.putString("Times",times[i-1]);
-                        editor.apply();
 
-                        pace.setText(sp.getString("Times", "").toString());
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "You're in the highest pace available", Toast.LENGTH_LONG).show();
-                    }
-                    break;
+    public void runQuicker(){
+        for (int i=times.length-1; i>=0; i--){
+            if(times[i].equals(sp.getString("Times", "").toString())){
+                if(i>0){
+                    editor.putString("Times",times[i-1]);
+                    editor.apply();
+
+                    pace.setText(sp.getString("Times", "").toString());
                 }
-
-            }
-        }
-
-        if(v== btRunSlower){
-            for (int i=0; i<times.length; i++){
-                if(times[i].equals(sp.getString("Times", "").toString())){
-                    if(i<times.length-1){
-                        editor.putString("Times",times[i+1]);
-                        editor.apply();
-
-                        pace.setText(sp.getString("Times", "").toString());
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "You're in the slowest pace available", Toast.LENGTH_LONG).show();
-                    }
-                    break;
+                else{
+                    Toast.makeText(getApplicationContext(), "You're in the highest pace available", Toast.LENGTH_LONG).show();
                 }
-
+                break;
             }
+
         }
-        if(v== btRunFurther){
-            for (int i=0; i<=distances.length; i++){
-                if(distances[i].equals(sp.getString("distances", "").toString())){
-                    if(i<times.length){
-                        editor.putString("distances",distances[i+1]);
-                        editor.apply();
-
-                        distance.setText(sp.getString("distances", "").toString());
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "There is no need to run further than 7.5 km", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                }
-
-            }
-        }
-
-        if(v== btRunLess){
-            for (int i=distances.length-1; i>=0; i--){
-                if(distances[i].equals(sp.getString("distances", "").toString())){
-                    if(i>0){
-                        editor.putString("distances",distances[i-1]);
-                        editor.apply();
-
-                        distance.setText(sp.getString("distances", "").toString());
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "1KM is the shortest distance available", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                }
-
-            }
-        }
-        if (v==btRunningEnd){
-            startActivity(new Intent(InRunningActivity.this, MainActivity.class));
-            addOneToSessionsCounter();
-        }
-
-        if (v==btCancel){
-            startActivity(new Intent(InRunningActivity.this, MainActivity.class));
-            Toast.makeText(getApplicationContext(), "Session is canceled", Toast.LENGTH_LONG).show();
-        }
-
-
     }
+    public void runSlower(){
+        for (int i=0; i<times.length; i++){
+            if(times[i].equals(sp.getString("Times", "").toString())){
+                if(i<times.length-1){
+                    editor.putString("Times",times[i+1]);
+                    editor.apply();
 
-    public void addOneToSessionsCounter (){
-        sessionsCounter = sp.getInt("running", 0);
-        editor.putInt("running", sessionsCounter+1);
-        editor.apply();
+                    pace.setText(sp.getString("Times", "").toString());
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "You're in the slowest pace available", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+
+        }
+    }
+    public void runFurther(){
+        for (int i=0; i<=distances.length; i++){
+            if(distances[i].equals(sp.getString("distances", "").toString())){
+                if(i<times.length){
+                    editor.putString("distances",distances[i+1]);
+                    editor.apply();
+
+                    distance.setText(sp.getString("distances", "").toString());
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "There is no need to run further than 7.5 km", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+
+        }
+    }
+    public void runLess(){
+        for (int i=distances.length-1; i>=0; i--){
+            if(distances[i].equals(sp.getString("distances", "").toString())){
+                if(i>0){
+                    editor.putString("distances",distances[i-1]);
+                    editor.apply();
+
+                    distance.setText(sp.getString("distances", "").toString());
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "1KM is the shortest distance available", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+
+        }
     }
 }

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class InFitnessActivity extends TrainingActivity implements View.OnClickListener {
-    Button btStart;
+    Button btStart; // כפתור למעבר לאימון עצמו
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

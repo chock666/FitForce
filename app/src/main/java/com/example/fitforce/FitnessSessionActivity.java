@@ -11,11 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class FitnessSessionActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView tvExerciseTitle, tvExercisedDescription, tvExercisedExplaination, tvExercisedMuscle, tvExerciseLink, type;
-    Button btNext;
-    exerciseHelper sh;
-    SharedPreferences sp,count;
-    SharedPreferences.Editor editor,countEditor;
+    TextView tvExerciseTitle, tvExercisedDescription,
+            tvExercisedExplaination, tvExercisedMuscle,
+            tvExerciseLink;// טקסטים שיציגו את פרטי התרגיל
+    Button btNext;// כפתור ששולח לתרגיל הבא דרך מסך הטיימר
+    exerciseHelper sh;// דרכו נעשה פעולות על טבלת הdataBase
+    SharedPreferences sp,count;// לשמירת נתוני כמות אימונים וID של אימון נוכחי
+    SharedPreferences.Editor editor,countEditor;// עורך את הנ"ל
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

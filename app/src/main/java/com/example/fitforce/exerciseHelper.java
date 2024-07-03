@@ -9,10 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 public class exerciseHelper extends SQLiteOpenHelper {
+    // שם מסד הנתונים
     public static final String DATABASENAME = "exercise.db";
+    // שם הטבלה
     public static final String TABLE_EXERCISE = "tblexercise";
+    // גרסת מסד הנתונים
     public static final int DATABASEVERSION = 1;
 
+    // עמודות הטבלה
     public static final String COLUMN_ID = "exerciseID";
     public static final String COLUMN_NAME = "exerciseName";
     public static final String COLUMN_TYPE = "type";
@@ -21,6 +25,7 @@ public class exerciseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LINK = "link";
     public static final String COLUMN_SHORT_EXPLANATION = "shortExplanation";
 
+    // מערך שמכיל את כל העמודות
     String[] allColumns = {
             exerciseHelper.COLUMN_ID,
             exerciseHelper.COLUMN_NAME,
@@ -31,8 +36,10 @@ public class exerciseHelper extends SQLiteOpenHelper {
             exerciseHelper.COLUMN_SHORT_EXPLANATION
     };
 
+    // משתנה למסד הנתונים
     SQLiteDatabase database;
 
+    // מחרוזת SQL ליצירת הטבלה
     private static final String CREATE_TABLE_EXERCISE = "CREATE TABLE IF NOT EXISTS " +
             TABLE_EXERCISE + "(" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

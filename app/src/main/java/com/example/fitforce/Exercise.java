@@ -4,13 +4,13 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 
 public class Exercise {
-    private long exerciseID;
-    private String exerciseName;
-    private String type;
-    private String description;
-    private String muscleGroup;
-    private String link;
-    private String shortExplanation;
+    private long exerciseID; // מזהה התרגיל
+    private String exerciseName;// שם התרגיל
+    private String type;// סוג התרגיל - לאיזה תחום הוא שייך
+    private String description; // תיאור התרגיל
+    private String muscleGroup;// קבוצת השרירים שעובדת בתרגיל
+    private String link;// לינק להסבר מפורט יותר על התרגיל
+    private String shortExplanation;// הסבר קצר על איך לבצע את התרגיל
 
     public Exercise(long exerciseID, String exerciseName, String type, String description, String muscleGroup, String link, String shortExplanation) {
         this.exerciseID = exerciseID;

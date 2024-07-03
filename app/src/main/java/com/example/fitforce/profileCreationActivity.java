@@ -106,12 +106,8 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
             // Save image resource ID to SharedPreferences
             preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
             editor = preferences.edit();
-            editor.putInt("imageResourceId", R.drawable.profile_pic); // Replace "profile_pic" with your image resource
+            editor.putInt("imageResourceId", R.drawable.profile_pic);
             editor.apply();
-
-            // Retrieve image resource ID from SharedPreferences
-
-
 
             startActivity(new Intent(profileCreationActivity.this, MainActivity.class));
         }
@@ -189,25 +185,7 @@ public class profileCreationActivity extends AppCompatActivity implements View.O
         startCamera.launch(cameraIntent);
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            switch (requestCode) {
-//                case 1://צילום תמונה
-//                    Bundle extras = data.getExtras();
-//                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                    saveBitmapToSharedPreferences(this, imageBitmap, "profile_image");
-//                    ivProfile.setImageBitmap(imageBitmap);
-//                    break;
-//                case 2://בחירת תמונה מגלריה
-//                    Uri selectedImage = data.getData();
-//                    ivProfile.setImageURI(selectedImage);
-//                    saveUriToSharedPreferences(this, selectedImage, "profile_image_uri");
-//                    break;
-//            }
-//        }
-//    }
+
 
 
 

@@ -17,11 +17,13 @@ public class strengthSessionActivity extends AppCompatActivity implements View.O
 
 
 
-    TextView tvExerciseTitle, tvExercisedDescription, tvExercisedExplaination, tvExercisedMuscle, tvExerciseLink, type;
-    Button btNext;
-    exerciseHelper sh;
-    SharedPreferences sp,count;
-    SharedPreferences.Editor editor,countEditor;
+    TextView tvExerciseTitle, tvExercisedDescription,
+            tvExercisedExplaination, tvExercisedMuscle,
+            tvExerciseLink;// טקסטים שיציגו את פרטי התרגיל
+    Button btNext; // כפתור ששולח לתרגיל הבא דרך מסך הטיימר
+    exerciseHelper sh;// דרכו נעשה פעולות על טבלת הdataBase
+    SharedPreferences sp,count;// לשמירת נתוני כמות אימונים וID של אימון נוכחי
+    SharedPreferences.Editor editor,countEditor;// עורך את הנ"ל
 
 
 
@@ -31,19 +33,21 @@ public class strengthSessionActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_strength_session);
         count = getSharedPreferences("sessionsCounter", MODE_PRIVATE);
         countEditor = count.edit();
-
         sp = getSharedPreferences("exerciseID", MODE_PRIVATE);
         editor = sp.edit();
+
         tvExerciseTitle = findViewById(R.id.tvTitle);
         tvExercisedDescription = findViewById(R.id.tvDescription);
         tvExercisedMuscle = findViewById(R.id.tvMuscleGroup);
         tvExercisedExplaination = findViewById(R.id.tvExpalin);
         tvExerciseLink = findViewById(R.id.tvLink);
-
         btNext = findViewById(R.id.btNextExercise);
         btNext.setOnClickListener(this);
+
+
         sh = new exerciseHelper(this);
         sh.open();
+
         try{
             insertFieldsByID(sp.getInt("i", 0), "strength");
         }
@@ -70,8 +74,7 @@ public class strengthSessionActivity extends AppCompatActivity implements View.O
         }
         else {
             startActivity(new Intent(strengthSessionActivity.this, TimerActivity.class));
-            editor.putInt("i", sp.getInt("i", 0)+1);
-            editor.apply();
+
 
         }
             }
@@ -100,6 +103,6 @@ public class strengthSessionActivity extends AppCompatActivity implements View.O
     protected void onDestroy() {
         super.onDestroy();
         editor.putInt("i", 0);
-
+        editor.apply();
     }
 }

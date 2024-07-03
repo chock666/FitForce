@@ -18,174 +18,127 @@
         android:text="settings"
         android:textColor="#43a047"
         android:textSize="40sp"
-        android:textStyle="italic|bold"
- />
+        android:textStyle="italic|bold" />
 
-
-    <!--
-        לייאאוט ראשון - תמונת פרופיל
-        -->
+    <!-- Profile picture layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="profile picture: "
-            />
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:id="@+id/ivProfile_on_settings"
+            android:textSize="24sp" />
 
-            />
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:id="@+id/ivProfile_on_settings" />
+
         <Button
             android:id="@+id/btEditPp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="135dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:text="change"
-            />
-
-
+            android:textSize="20sp" />
     </LinearLayout>
 
-
-
-    <!--
-    לייאאוט שני - שם פרטי
-    -->
+    <!-- First name layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="first name: "
-            />
+            android:textSize="24sp" />
+
         <TextView
             android:id="@+id/first_name_on_settings"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="x"
-            />
+            android:textSize="20sp" />
+
         <Button
             android:id="@+id/btEditFirstName"
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="135dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:text="change"
-            />
-
-
+            android:textSize="15sp" />
     </LinearLayout>
 
-
-
-
-
-
-
-
-    <!--
-    לייאאוט שלישי - שם משפחה
-    -->
+    <!-- Last name layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="last name: "
-            />
+            android:textSize="24sp" />
+
         <TextView
             android:id="@+id/lastNameOnSettings"
-
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="y"
-            />
+            android:textSize="20sp" />
+
         <Button
             android:id="@+id/btEditLastName"
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="135dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:text="change"
-            />
-
-
+            android:textSize="20sp" />
     </LinearLayout>
 
-
-
-
-
-
-    <!--
-    לייאאוט רביעי - תאריך לידה
-    -->
+    <!-- Birth date layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="birth date: "
-            />
+            android:textSize="24sp" />
+
         <TextView
             android:id="@+id/birthDateOnSettings"
-
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="z"
-            />
+            android:textSize="20sp" />
+
         <Button
             android:id="@+id/btEditDateDialog"
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="135dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:text="choose date"
-            />
-
-
+            android:textSize="20sp" />
     </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </LinearLayout>
+</LinearLayout>
